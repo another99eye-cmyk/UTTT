@@ -1,0 +1,100 @@
+Summary (one-line)
+
+Build a Pygame app with a Game loop, Board models (9 small boards in a 3×3 meta-board), UI/draw code, input handling, rules enforcement, and optionally AI (minimax/alphabeta) or network play. Style it with colors/animations/music for the vibe.
+What you’ll need — software & libs
+
+Python 3.10+ (3.11 recommended)
+Pygame (pip install pygame)
+Optional: numpy (for faster arrays/heuristics), pygame_gui (if you want GUI widgets), sound files
+Optional for packaging: pyinstaller / brief docs for distribution
+Install commands
+
+python -m pip install --upgrade pip
+python -m pip install pygame
+(optional) python -m pip install numpy
+Game rules refresher (so the code enforces them)
+
+The board is a 3×3 grid of small 3×3 tic-tac-toe boards (9 small boards total).
+Players alternate placing marks in cells of the small boards.
+The small-cell a player chooses determines WHICH small board the next player must play in (the index within the small board maps to the small-board index in the meta-board).
+Example: place in cell 5 (center-right) of small-board 2 → opponent must play in small-board #5.
+If the forced small-board is already won or full, the next player may play in any unfinished small board.
+Each small board can be won by normal tic-tac-toe rules; winning a small board marks that cell in the global 3×3 meta-board.
+Global victory = win the meta-board (three-in-a-row of won small boards).
+Draw rules: a full small-board with no winner is “drawn” (treated as unavailable for sending next player by rule above). If meta-board ends without winner, it’s a draw.
+Data structures & core objects
+
+Represent cells as integers or small enums: 0 = empty, 1 = X, 2 = O (or None/'X'/'O').
+SmallBoard class:
+cells: list[9] (0..8)
+state: ONGOING / X_WON / O_WON / DRAW
+methods: play(cell_index, player), check_win(), is_full()
+UltimateBoard (meta):
+boards: list[9] of SmallBoard
+meta_state: same states (meta win/draw/ongoing)
+next_board_index: int or None (None means free choice)
+methods: play(board_index, cell_index, player) — enforces rules, updates next_board_index
+legal_moves() returns list of (board,cell) allowed
+Game class:
+current_player, board (UltimateBoard), history (for undo), mode (2p/local, vs ai, host/join)
+methods: update, draw, handle_input, ai_move, restart, undo
+UI & interaction
+
+Layout: draw 3×3 big cells, each with grid for the small 3×3.
+Use scaled coordinates: compute sizes from window size so it’s responsive.
+Visual cues:
+Highlight active small-board(s) (the board player must play in)
+Show winning pattern overlay on small boards
+Gentle animations when boards are won (fade, small particles)
+Smooth piece placement animation (scale/rotate)
+Input:
+mouse click => convert pixel to (board_idx, cell_idx), validate against legal_moves()
+keyboard shortcuts: R restart, U undo, Esc quit
+Sound/ambience:
+Click sound, win sound, background loop (low-volume), subtle whoosh on board win
+Accessibility:
+High contrast color theme option, large fonts, toggleable hints
+AI options (simple → hard)
+
+Random legal move (for testing)
+Heuristic minimax with alpha-beta:
+Define utility: +1000 for meta-win, -1000 meta-loss, intermediate scores for small-board control.
+Use iterative deepening or depth limit (depth measured as number of small moves).
+Use transposition table/hash for performance.
+Monte Carlo Tree Search (MCTS) for a “vibe” stochastic AI
+Practical: start with minimax depth 2–4, include heuristics for potential forks, favor moves that send opponent to losing or full boards.
+Performance tips
+
+Only redraw regions that changed (but initially you can redraw whole screen — modern machines are fine).
+Cache rendered text and surfaces for marks/win overlays.
+Keep game logic separated from rendering for testability.
+Polish / “vibe coding” suggestions
+
+Color palette: pick one mood (calm blues / neon / retro) and stick to 3–4 colors.
+Gentle transitions: fade in/out for new screen, animate mark placement.
+Particle system for wins (small subtle particles).
+Background music loop and toggle.
+Smooth cursor hover and haptic-feel animations (scale on hover).
+Add a “zen mode”: no timer, minimal UI, ambient music.
+Milestones (plan)
+
+MVP (1–3 sessions)
+Pygame window, draw board, input to place marks, enforce rules and next-board logic, show active board highlight, detect small/meta wins and draw.
+Two-player local play only.
+Stage 2 (add polish)
+Animations, sounds, restart/undo, end-game screen, scores, responsive layout.
+Stage 3 (AI & difficulty)
+Add basic AI (random, greedy), then minimax with alpha-beta, difficulty slider.
+Stage 4 (extras)
+Online multiplayer (websocket/server), leaderboards, save/load, skins, custom colors.
+Suggested file layout
+
+main.py — app entry + loop
+game.py — Game class (state, turn logic)
+board.py — SmallBoard and UltimateBoard models
+ai.py — AI engine(s)
+draw.py — rendering helpers, UI widgets, animations
+assets/ — images, sounds, fonts
+settings.py — constants, color themes
+utils.py — helpers (coords mapping, hashing)
+README.md, requirements.txt
