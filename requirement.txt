@@ -1,0 +1,339 @@
+Ultimate Tic Tac Toe (Mobile)
+Project Requirements & TODO Manifest
+1. Core Project Requirements
+1.1 Platform & Technology
+
+Language: Python 3.10+
+
+Engine: Pygame (or pygame-ce)
+
+Target: Mobile-first design
+
+Orientation: Portrait
+
+Resolution: Scalable / adaptive
+
+Version Control: Git
+
+2. Architecture Requirements
+2.1 Game State System
+
+Implement a State Manager
+
+Each screen must be an isolated state:
+
+Input handling
+
+Update logic
+
+Rendering
+
+States must be swappable without restarting the game
+
+2.2 Required States
+
+Main Menu
+
+New Game Menu
+
+AI Difficulty Selection
+
+Two Players Mode
+
+Multiplayer Placeholder
+
+Continue Game
+
+Shop
+
+Credits
+
+Gameplay
+
+Pause Overlay
+
+3. Menu Architecture (Functional Requirements)
+Main Menu
+
+Buttons:
+
+Start
+
+Credits
+
+Quit
+
+Start Menu
+
+New Game
+
+Continue
+
+Shop
+
+Back to Main Menu
+
+New Game
+
+AI Mode
+
+Easy
+
+Normal
+
+Hard
+
+Two Players Mode
+
+Multiplayer (Disabled / Coming Soon)
+
+Credits
+
+Scrollable text
+
+Back button
+
+4. Gameplay Requirements (Ultimate Tic Tac Toe)
+4.1 Board System
+
+Big Board: 3×3 grid of small boards
+
+Small Board: 3×3 grid of cells
+
+4.2 Rules Enforcement
+
+Forced move logic based on previous move
+
+Detect:
+
+Small board win
+
+Small board draw
+
+Big board win
+
+Big board draw
+
+Lock completed small boards
+
+Visual indication of active board(s)
+
+4.3 Player System
+
+Player X / Player O
+
+Turn tracking
+
+Move validation
+
+Illegal move prevention
+
+5. Input System (Mobile-Oriented)
+
+Touch-based input abstraction
+
+Rect-based hit detection
+
+Large tap targets
+
+No keyboard dependency
+
+Gesture-safe interactions
+
+6. AI System Requirements
+Easy AI
+
+Random valid moves only
+
+Normal AI
+
+Heuristic evaluation
+
+Center preference
+
+Blocking immediate wins
+
+Favor winning small boards
+
+Hard AI
+
+Minimax with alpha-beta pruning
+
+Depth-limited search
+
+Cached board evaluations
+
+Hard time or depth cutoff to prevent frame drops
+
+7. Persistence & Save System
+Save Data Must Include:
+
+Current game state
+
+Active player
+
+Board states
+
+Player settings
+
+Shop purchases
+
+Currency balance
+
+Storage
+
+JSON or SQLite
+
+Corruption-safe loading
+
+Auto-save on move
+
+8. Shop System Requirements
+Shop Core
+
+Virtual currency
+
+Item catalog system
+
+Purchase validation
+
+Persistent ownership tracking
+
+Item Types
+
+Board themes
+
+Cell skins (X / O)
+
+Sound packs
+
+Animations (future-proofed)
+
+Restrictions
+
+Shop must NOT modify gameplay logic
+
+Cosmetic-only (initially)
+
+9. Visual & UX Requirements
+
+Clean, minimal UI
+
+Clear visual hierarchy
+
+Animated feedback:
+
+Button press
+
+Winning lines
+
+Board lock
+
+Colorblind-safe palette
+
+Consistent typography
+
+10. Audio Requirements
+
+UI click sounds
+
+Move placement sound
+
+Win / loss cues
+
+Toggleable sound settings
+
+Volume persistence
+
+11. Performance Requirements
+
+Target 60 FPS (graceful degradation)
+
+No blocking loops
+
+AI computation must not freeze rendering
+
+Memory usage optimized for mobile
+
+12. Error Handling & Stability
+
+No crashes on:
+
+Invalid input
+
+Corrupt save file
+
+Missing assets
+
+Fallback defaults for all failures
+
+Logging system (debug builds)
+
+13. Development TODO (Execution Order)
+Phase 1 — Foundation
+
+ Project structure
+
+ State manager
+
+ Basic window & scaling
+
+ Input abstraction layer
+
+Phase 2 — Core Gameplay
+
+ Ultimate Tic Tac Toe logic
+
+ Two-player local mode
+
+ Win/draw detection
+
+ Visual board rendering
+
+Phase 3 — Menus & Flow
+
+ Main menu
+
+ New game flow
+
+ Pause & resume
+
+ Credits screen
+
+Phase 4 — AI
+
+ Easy AI
+
+ Normal AI
+
+ Hard AI
+
+ Performance safeguards
+
+Phase 5 — Persistence
+
+ Save manager
+
+ Continue game
+
+ Settings storage
+
+Phase 6 — Shop
+
+ Currency system
+
+ Shop UI
+
+ Cosmetic application
+
+ Purchase persistence
+
+Phase 7 — Polish
+
+ Animations
+
+ Sound effects
+
+ UX refinements
+
+ Performance optimization
